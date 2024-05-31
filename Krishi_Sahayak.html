@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Selection</title>
+    <style>
+        body {
+            background-image: url('https://www.superiorwallpapers.com/nature/wonderful-green-field-hd-nature-wallpaper_1280x720.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .language-selection {
+            margin-top: 20px;
+        }
+
+        h2, h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        .toggle-link {
+            color: #007bff;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #welcome-page {
+            color: black;
+            text-align: center;
+        }
+
+        img {
+            border-radius: 200px;
+            width: 200px;
+            height: 200px;
+            margin-right: 2%;
+            margin-right: 5%;
+            padding-right: 5%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 40px;
+        }
+
+        #div2 {
+            margin-top: 10%;
+            width: 100%;
+            height: 20%;
+            margin-left: -10%;
+        }
+
+        #div1 {
+            width: 100%;
+            height: 20%;
+            margin-left: -10%;
+            margin-top: 10%;
+        }
+
+        #stock-list {
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #stock-list h3 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-selection">
+        <label for="language-select">Select Language:</label>
+        <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+        </select>
+    </div>
+    
+    <span><div id="div2"><h1 data-translate="title">Krishi Sahayak</h1></div></span>
+    <span><div id="div1"><img src="Designer.jpeg"></div></span>
+
+    <div class="container" id="role-selection">
+        <h2 data-translate="selectRole">Select Your Role</h2>
+        <button onclick="selectRole('farmer')" data-translate="farmer">Farmer</button>
+        <button onclick="selectRole('consumer')" data-translate="consumer">Consumer</button>
+    </div>
+
+    <div class="container hidden" id="form-container">
+        <div id="farmer-login-form" class="form hidden">
+            <h2 data-translate="farmerLogin">Farmer Login</h2>
+            <form id="farmerLoginForm">
+                <label for="farmer-login-username" data-translate="username">Username</label>
+                <input type="text" id="farmer-login-username" name="username" required>
+                
+                <label for="farmer-login-password" data-translate="password">Password</label>
+                <input type="password" id="farmer-login-password" name="password" required>
+                
+                <button type="submit" data-translate="login">Login</button>
+            </form>
+            <p id="farmer-login-error-message"></p>
+            <p class="toggle-link"><a href="#" onclick="toggleForms('farmer')" data-translate="createAccount">Create Account</a></p>
+        </div>
+
+        <div id="farmer-create-account-form" class="form hidden">
+            <h2 data-translate="createFarmerAccount">Create Farmer Account</h2>
+            <form id="farmerCreateAccountForm">
+                <label for="farmer-create-username" data-translate="username">Username</label>
+                <input type="text" id="farmer-create-username" name="username" required>
+                
+                <label for="farmer-create-password" data-translate="password">Password</label>
+                <input type="password" id="farmer-create-password" name="password" required>
+                
+                <label for="farmer-create-email" data-translate="email">Email</label>
+                <input type="email" id="farmer-create-email" name="email" required>
+                
+                <label for="farmer-create-mob" data-translate="mobile">Mobile Number</label>
+                <input type="tel" id="farmer-create-mob" name="mob" required>
+                
+                <label for="farmer-create-city" data-translate="city">City</label>
+                <input type="text" id="farmer-create-city" name="city" required>
+                
+                <button type="submit" data-translate="createAccountButton">Create Account</button>
+            </form>
+            <p id="farmer-create-error-message"></p>
+            <p class="toggle-link"><a href="#" onclick="toggleForms('farmer')" data-translate="login">Login</a></p>
+        </div>
+
+        <div id="consumer-login-form" class="form hidden">
+            <h2 data-translate="consumerLogin">Consumer Login</h2>
+            <form id="consumerLoginForm">
+                <label for="consumer-login-username" data-translate="username">Username</label>
+                <input type="text" id="consumer-login-username" name="username" required>
+                
+                <label for="consumer-login-password" data-translate="password">Password</label>
+                <input type="password" id="consumer-login-password" name="password" required>
+                
+                <button type="submit" data-translate="login">Login</button>
+            </form>
+            <p id="consumer-login-error-message"></p>
+            <p class="toggle-link"><a href="#" onclick="toggleForms('consumer')" data-translate="createAccount">Create Account</a></p>
+        </div>
+
+        <div id="consumer-create-account-form" class="form hidden">
+            <h2 data-translate="createConsumerAccount">Create Consumer Account</h2>
+            <form id="consumerCreateAccountForm">
+                <label for="consumer-create-username" data-translate="username">Username</label>
+                <input type="text" id="consumer-create-username" name="username" required>
+                
+                <label for="consumer-create-password" data-translate="password">Password</label>
+                <input type="password" id="consumer-create-password" name="password" required>
+                
+                <label for="consumer-create-email" data-translate="email">Email</label>
+                <input type="email" id="consumer-create-email" name="email" required>
+                
+                <label for="consumer-create-mob" data-translate="mobile">Mobile Number</label>
+                <input type="tel" id="consumer-create-mob" name="mob" required>
+                
+                <label for="consumer-create-city" data-translate="city">City</label>
+                <input type="text" id="consumer-create-city" name="city" required>
+                
+                <button type="submit" data-translate="createAccountButton">Create Account</button>
+            </form>
+            <p id="consumer-create-error-message"></p>
+            <p class="toggle-link"><a href="#" onclick="toggleForms('consumer')" data-translate="login">Login</a></p>
+        </div>
+
+        <div id="welcome-page" class="form hidden">
+            <h1 data-translate="welcome">Welcome</h1>
+            <p data-translate="clickToProceed">Click the button below to proceed</p>
+            <button onclick="handleSellClick()" data-translate="sell">Sell</button>
+            <button onclick="handleTechReformClick()" data-translate="techReform">Technological And Institutional Reform</button>
+            <button onclick="handleBuyClick()" data-translate="agriNeeds">AGRI NEEDS</button>
+            <button onclick="handleWeatherUpdatesClick()" data-translate="weatherUpdates">WEATHER UPDATES</button>
+            <button onclick="handleIrrigationClick()" data-translate="irrigation">IRRIGATION</button>
+            <button onclick="handleBanksClick()" data-translate="banks">BANKS</button>
+            <button onclick="handleGovernmentHelplinesClick()" data-translate="govtHelplines">GOVERNMENT HELPLINES</button>
+            <button onclick="viewFarmerStocks()" data-translate="viewStocks">VIEW STOCKS</button>
+            <button onclick="handleLogoutClick()" data-translate="logout">Logout</button>
+        </div>
+
+        <div class="container hidden" id="farmer-stocks-container">
+            <h2>Your Stocks</h2>
+            <div id="farmer-stock-list"></div>
+            <button onclick="back()" style="color: red;">Back</button>
+        </div>
+
+        <div class="container hidden" id="consumer-welcome-page">
+            <h1 data-translate="welcomeConsumer">Welcome, Consumer!</h1>
+            <button onclick="viewStocks()" data-translate="viewStocks">VIEW STOCKS</button>
+            <button onclick="logoutConsumer()" data-translate="logout">LOGOUT</button>
+            <div id="stock-list"></div>
+            <button id="scroll-down-button" class="hidden" onclick="scrollDown()" data-translate="scrollDown">Scroll Down</button>
+        </div>
+
+        <div id="tech-reform-options" class="hidden">
+            <button onclick="showMSPPage()" data-translate="msp">MSP - Minimum Support Price</button>
+            <button onclick="showPMAASHAPage()" data-translate="pmaasha">PMAASHA</button>
+            <button onclick="showKCCPage()" data-translate="kcc">KCC - Kisan Credit Card</button>
+            <button onclick="connectToGovt()" data-translate="connectGovt">CONNECT TO GOVT</button>
+            <button style="color: red;" onclick="back()" data-translate="back">Back</button>
+        </div>
+
+        <div id="sell-stock" class="hidden">
+            <h1 data-translate="sellPage">SELL</h1>
+            <select id="crop-type">
+                <option value="sugarcane" data-translate="sugarcane">Sugarcane</option>
+                <option value="wheat" data-translate="wheat">Wheat</option>
+                <option value="rice" data-translate="rice">Rice</option>
+                <option value="millet" data-translate="millet">Millet</option>
+            </select>
+            <div style="margin-top: 20px;">
+                <label for="crop-amount" data-translate="amount">Amount (kgs):</label>
+                <input type="number" id="crop-amount" name="crop-amount" min="1" required>
+            </div>
+            <button onclick="handleSubmitStockClick()" data-translate="submitStock">SUBMIT STOCK</button>
+            <button style="color:red;" onclick="back()" data-translate="back">Back</button>
+        </div>
+
+        <div id="irrigation-options" class="hidden">
+            <button onclick="redirectToUPID()" data-translate="upid">UPID</button>
+            <button onclick="redirectToDDKisanChannel()" data-translate="ddKisan">DD KISAN CHANNEL</button>
+            <button style="color:red;" onclick="back()" data-translate="back">Back</button>
+        </div>
+
+        <div id="handleGovernmentHelplinesClick" class="hidden">
+            <h1 data-translate="govtHelplinesTitle">Government Helpline Numbers</h1>
+            <p><strong>Kisan Call Center:</strong></p>
+            <p>Toll-free number: 1800-180-1551</p>
+            <p><strong>PM Kisan Samman Nidhi Helpline:</strong></p>
+            <p>Toll-free number: 1800-11-5526</p>
+            <p>Helpline number: +91-11-41516164</p>
+            <p><strong>National Horticulture Board (NHB):</strong></p>
+            <p>Helpline number: +91-11-25652259</p>
+            <p><strong>National Seeds Corporation Limited (NSCL):</strong></p>
+            <p>Helpline number: +91-11-25842172</p>
+            <p><strong>National Bank for Agriculture and Rural Development (NABARD):</strong></p>
+            <p>Helpline number: +91-22-26539895</p>
+            <button style="color:red;" onclick="back()" data-translate="back">Back</button>
+        </div>
+
+        <div id="handleBanksClick" class="hidden">
+            <h1 data-translate="banksTitle">Banks In Greater Noida</h1>
+            <p><strong>State Bank of India (SBI):</strong> Alpha I Commercial Belt, Greater Noida</p>
+            <p><strong>Punjab National Bank (PNB):</strong> Sector Alpha II, Greater Noida</p>
+            <p><strong>HDFC Bank:</strong> Alpha Commercial Belt, Greater Noida</p>
+            <p><strong>ICICI Bank:</strong> Alpha Commercial Belt, Greater Noida</p>
+            <p><strong>Axis Bank:</strong> Sector Beta I, Greater Noida</p>
+            <p><strong>Canara Bank:</strong> Jagat Farm, Greater Noida</p>
+            <p><strong>Bank of Baroda:</strong> Jagat Farm, Greater Noida</p>
+            <p><strong>Yes Bank:</strong> Sector Alpha II, Greater Noida</p>
+            <button style="color:red;" onclick="back()" data-translate="back">Back</button>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: "Krishi Sahayak",
+                selectRole: "Select Your Role",
+                farmer: "Farmer",
+                consumer: "Consumer",
+                farmerLogin: "Farmer Login",
+                username: "Username",
+                password: "Password",
+                login: "Login",
+                createAccount: "Create Account",
+                createFarmerAccount: "Create Farmer Account",
+                email: "Email",
+                mobile: "Mobile Number",
+                city: "City",
+                createAccountButton: "Create Account",
+                consumerLogin: "Consumer Login",
+                createConsumerAccount: "Create Consumer Account",
+                welcome: "Welcome",
+                clickToProceed: "Click the button below to proceed",
+                sell: "Sell",
+                techReform: "Technological And Institutional Reform",
+                agriNeeds: "AGRI NEEDS",
+                weatherUpdates: "WEATHER UPDATES",
+                irrigation: "IRRIGATION",
+                banks: "BANKS",
+                govtHelplines: "GOVERNMENT HELPLINES",
+                logout: "Logout",
+                welcomeConsumer: "Welcome, Consumer!",
+                viewStocks: "VIEW STOCKS",
+                msp: "MSP - Minimum Support Price",
+                pmaasha: "PMAASHA",
+                kcc: "KCC - Kisan Credit Card",
+                connectGovt: "CONNECT TO GOVT",
+                back: "Back",
+                sellPage: "SELL",
+                sugarcane: "Sugarcane",
+                wheat: "Wheat",
+                rice: "Rice",
+                millet: "Millet",
+                amount: "Amount (kgs):",
+                submitStock: "SUBMIT STOCK",
+                upid: "UPID",
+                ddKisan: "DD KISAN CHANNEL",
+                govtHelplinesTitle: "Government Helpline Numbers",
+                banksTitle: "Banks In Greater Noida",
+                scrollDown: "Scroll Down"
+            },
+            hi: {
+                title: "कृषि सहायक",
+                selectRole: "अपनी भूमिका चुनें",
+                farmer: "किसान",
+                consumer: "उपभोक्ता",
+                farmerLogin: "किसान लॉगिन",
+                username: "उपयोगकर्ता नाम",
+                password: "पासवर्ड",
+                login: "लॉगिन",
+                createAccount: "खाता बनाएँ",
+                createFarmerAccount: "किसान खाता बनाएँ",
+                email: "ईमेल",
+                mobile: "मोबाइल नंबर",
+                city: "शहर",
+                createAccountButton: "खाता बनाएँ",
+                consumerLogin: "उपभोक्ता लॉगिन",
+                createConsumerAccount: "उपभोक्ता खाता बनाएँ",
+                welcome: "स्वागत है",
+                clickToProceed: "आगे बढ़ने के लिए नीचे दिए गए बटन पर क्लिक करें",
+                sell: "बेचें",
+                techReform: "प्रौद्योगिकी और संस्थागत सुधार",
+                agriNeeds: "कृषि आवश्यकताएँ",
+                weatherUpdates: "मौसम अपडेट",
+                irrigation: "सिंचाई",
+                banks: "बैंक",
+                govtHelplines: "सरकारी हेल्पलाइन",
+                logout: "लॉगआउट",
+                welcomeConsumer: "स्वागत है, उपभोक्ता!",
+                viewStocks: "स्टॉक्स देखें",
+                msp: "न्यूनतम समर्थन मूल्य",
+                pmaasha: "पीएम-आशा",
+                kcc: "किसान क्रेडिट कार्ड",
+                connectGovt: "सरकार से जुड़ें",
+                back: "वापस",
+                sellPage: "बेचना",
+                sugarcane: "गन्ना",
+                wheat: "गेहूं",
+                rice: "चावल",
+                millet: "बाजरा",
+                amount: "मात्रा (किलो):",
+                submitStock: "स्टॉक सबमिट करें",
+                upid: "यूपीआईडी",
+                ddKisan: "डीडी किसान चैनल",
+                govtHelplinesTitle: "सरकारी हेल्पलाइन नंबर",
+                banksTitle: "ग्रेटर नोएडा में बैंक",
+                scrollDown: "नीचे स्क्रॉल करें"
+            }
+        };
+
+        function changeLanguage(lang) {
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                element.textContent = translations[lang][key];
+            });
+        }
+
+        function selectRole(role) {
+            document.getElementById('role-selection').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+
+            if (role === 'farmer') {
+                document.getElementById('farmer-login-form').classList.remove('hidden');
+            } else if (role === 'consumer') {
+                document.getElementById('consumer-login-form').classList.remove('hidden');
+            }
+        }
+
+        function toggleForms(role) {
+            if (role === 'farmer') {
+                document.getElementById('farmer-login-form').classList.toggle('hidden');
+                document.getElementById('farmer-create-account-form').classList.toggle('hidden');
+            } else if (role === 'consumer') {
+                document.getElementById('consumer-login-form').classList.toggle('hidden');
+                document.getElementById('consumer-create-account-form').classList.toggle('hidden');
+            }
+        }
+
+        document.getElementById('farmerLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('farmer-login-username').value;
+            var password = document.getElementById('farmer-login-password').value;
+            
+            var storedFarmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            var farmerFound = storedFarmers.find(farmer => farmer.username === username && farmer.password === password);
+            
+            if (farmerFound) {
+                localStorage.setItem('loggedInFarmer', JSON.stringify(farmerFound));
+                showWelcomePage();
+            } else {
+                document.getElementById('farmer-login-error-message').textContent = 'Invalid username or password';
+            }
+        });
+
+        document.getElementById('farmerCreateAccountForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('farmer-create-username').value;
+            var password = document.getElementById('farmer-create-password').value;
+            var email = document.getElementById('farmer-create-email').value;
+            var mob = document.getElementById('farmer-create-mob').value;
+            var city = document.getElementById('farmer-create-city').value;
+            
+            var storedFarmers = JSON.parse(localStorage.getItem('farmers')) || [];
+            var farmerExists = storedFarmers.find(farmer => farmer.username === username);
+            
+            if (farmerExists) {
+                document.getElementById('farmer-create-error-message').textContent = 'Username already exists';
+            } else {
+                storedFarmers.push({ username, password, email, mob, city });
+                localStorage.setItem('farmers', JSON.stringify(storedFarmers));
+                alert('Account created successfully!');
+                toggleForms('farmer');
+            }
+        });
+
+        document.getElementById('consumerLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('consumer-login-username').value;
+            var password = document.getElementById('consumer-login-password').value;
+            
+            var storedConsumers = JSON.parse(localStorage.getItem('consumers')) || [];
+            var consumerFound = storedConsumers.find(consumer => consumer.username === username && consumer.password === password);
+            
+            if (consumerFound) {
+                localStorage.setItem('loggedInConsumer', JSON.stringify(consumerFound));
+                showConsumerWelcomePage();
+            } else {
+                document.getElementById('consumer-login-error-message').textContent = 'Invalid username or password';
+            }
+        });
+
+        document.getElementById('consumerCreateAccountForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('consumer-create-username').value;
+            var password = document.getElementById('consumer-create-password').value;
+            var email = document.getElementById('consumer-create-email').value;
+            var mob = document.getElementById('consumer-create-mob').value;
+            var city = document.getElementById('consumer-create-city').value;
+            
+            var storedConsumers = JSON.parse(localStorage.getItem('consumers')) || [];
+            var consumerExists = storedConsumers.find(consumer => consumer.username === username);
+            
+            if (consumerExists) {
+                document.getElementById('consumer-create-error-message').textContent = 'Username already exists';
+            } else {
+                storedConsumers.push({ username, password, email, mob, city });
+                localStorage.setItem('consumers', JSON.stringify(storedConsumers));
+                alert('Account created successfully!');
+                toggleForms('consumer');
+            }
+        });
+
+        function showWelcomePage() {
+            document.getElementById('farmer-login-form').classList.add('hidden');
+            document.getElementById('irrigation-options').classList.add('hidden');
+            document.getElementById('farmer-create-account-form').classList.add('hidden');
+            document.getElementById('sell-stock').classList.add('hidden');
+            document.getElementById('welcome-page').classList.remove('hidden');
+            document.getElementById('tech-reform-options').classList.add('hidden');
+        }
+
+        function showConsumerWelcomePage() {
+            document.getElementById('consumer-login-form').classList.add('hidden');
+            document.getElementById('consumer-create-account-form').classList.add('hidden');
+            document.getElementById('consumer-welcome-page').classList.remove('hidden');
+        }
+
+        function viewStocks() {
+            var stockList = document.getElementById('stock-list');
+            stockList.innerHTML = ''; // Clear previous stocks
+
+            var storedStocks = JSON.parse(localStorage.getItem('stocks')) || [];
+            if (storedStocks.length === 0) {
+                stockList.innerHTML = '<p>No stocks available.</p>';
+                return;
+            }
+
+            storedStocks.forEach(stock => {
+                var stockDiv = document.createElement('div');
+                stockDiv.innerHTML = `
+                    <h3>Crop: ${stock.crop}</h3>
+                    <p>Amount: ${stock.amount} kgs</p>
+                    <p>Farmer's Contact: ${stock.mob}</p>
+                    <p>City: ${stock.city}</p>
+                    <hr>
+                `;
+                stockList.appendChild(stockDiv);
+            });
+
+            document.getElementById('scroll-down-button').classList.remove('hidden');
+        }
+
+        function viewFarmerStocks() {
+            var stockList = document.getElementById('farmer-stock-list');
+            stockList.innerHTML = ''; // Clear previous stocks
+
+            var loggedInFarmer = JSON.parse(localStorage.getItem('loggedInFarmer'));
+            var storedStocks = JSON.parse(localStorage.getItem('stocks')) || [];
+            var farmerStocks = storedStocks.filter(stock => stock.mob === loggedInFarmer.mob);
+
+            if (farmerStocks.length === 0) {
+                stockList.innerHTML = '<p>No stocks available.</p>';
+                return;
+            }
+
+            farmerStocks.forEach((stock, index) => {
+                var stockDiv = document.createElement('div');
+                stockDiv.innerHTML = `
+                    <h3>Crop: ${stock.crop}</h3>
+                    <p>Amount: ${stock.amount} kgs</p>
+                    <button onclick="markStockAsSold(${index})">COMPLETED</button>
+                    <hr>
+                `;
+                stockList.appendChild(stockDiv);
+            });
+
+            document.getElementById('farmer-stocks-container').classList.remove('hidden');
+            document.getElementById('welcome-page').classList.add('hidden');
+        }
+
+        function markStockAsSold(index) {
+            var storedStocks = JSON.parse(localStorage.getItem('stocks')) || [];
+            storedStocks.splice(index, 1);
+            localStorage.setItem('stocks', JSON.stringify(storedStocks));
+            viewFarmerStocks();
+        }
+
+        function scrollDown() {
+            var stockList = document.getElementById('stock-list');
+            stockList.scrollTop = stockList.scrollHeight;
+        }
+
+        function logoutConsumer() {
+            localStorage.removeItem('loggedInConsumer');
+            location.reload();
+        }
+
+        function handleSellClick() {
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('sell-stock').classList.remove('hidden');
+        }
+
+        function handleSubmitStockClick() {
+            var crop = document.getElementById('crop-type').value;
+            var amount = document.getElementById('crop-amount').value;
+            var loggedInFarmer = JSON.parse(localStorage.getItem('loggedInFarmer'));
+
+            var storedStocks = JSON.parse(localStorage.getItem('stocks')) || [];
+            storedStocks.push({
+                crop,
+                amount,
+                mob: loggedInFarmer.mob,
+                city: loggedInFarmer.city
+            });
+            localStorage.setItem('stocks', JSON.stringify(storedStocks));
+
+            alert('Stock submitted successfully!');
+            showWelcomePage();
+        }
+
+        function handleLogoutClick() {
+            localStorage.removeItem('loggedInFarmer');
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('farmer-login-form').classList.remove('hidden');
+        }
+
+        function handleGovernmentHelplinesClick() {
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('handleGovernmentHelplinesClick').classList.remove('hidden');
+        }
+
+        function handleTechReformClick() {
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('tech-reform-options').classList.remove('hidden');
+        }
+
+        function handleBuyClick() {
+            window.open('https://www.iffcobazar.in/en');
+        }
+
+        function handleWeatherUpdatesClick() {
+            window.open('https://mausam.imd.gov.in/');
+        }
+
+        function handleIrrigationClick() {
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('irrigation-options').classList.remove('hidden');
+        }
+
+        function redirectToUPID() {
+            window.open('https://idup.gov.in/en');
+        }
+
+        function redirectToDDKisanChannel() {
+            window.open('https://www.youtube.com/c/ddkisan');
+        }
+
+        function back() {
+            document.getElementById('farmer-login-form').classList.add('hidden');
+            document.getElementById('irrigation-options').classList.add('hidden');
+            document.getElementById('farmer-create-account-form').classList.add('hidden');
+            document.getElementById('sell-stock').classList.add('hidden');
+            document.getElementById('welcome-page').classList.remove('hidden');
+            document.getElementById('tech-reform-options').classList.add('hidden');
+            document.getElementById('handleGovernmentHelplinesClick').classList.add('hidden');
+            document.getElementById('handleBanksClick').classList.add('hidden');
+            document.getElementById('farmer-stocks-container').classList.add('hidden');
+        }
+
+        function handleBanksClick() {
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('handleBanksClick').classList.remove('hidden');
+        }
+
+        function showMSPPage() {
+            window.open('https://desagri.gov.in/statistics-type/latest-minimum-support-price-msp-statement/');
+        }
+
+        function showKCCPage() {
+            window.open('https://www.myscheme.gov.in/schemes/kcc');
+        }
+
+        function showPMAASHAPage() {
+            window.open('https://www.india.gov.in/spotlight/pradhan-mantri-annadata-aay-sanrakshan-abhiyan-pm-aasha');
+        }
+
+        if (localStorage.getItem('loggedInFarmer')) {
+            showWelcomePage();
+            document.getElementById('role-selection').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+        }
+
+        if (localStorage.getItem('loggedInConsumer')) {
+            showConsumerWelcomePage();
+        }
+
+        window.addEventListener('beforeunload', function() {
+            localStorage.removeItem('loggedInFarmer');
+            localStorage.removeItem('loggedInConsumer');
+        });
+    </script>
+</body>
+</html>
+
